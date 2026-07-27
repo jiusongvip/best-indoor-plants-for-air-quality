@@ -1,0 +1,50 @@
+---
+import Layout from "../components/Layout.astro";
+
+const faqs = [
+  { q: "Do indoor plants really clean the air?", a: "Yes, but with realistic expectations. The 1989 NASA Clean Air Study demonstrated that certain houseplants remove volatile organic compounds (VOCs) like benzene, formaldehyde, and trichloroethylene in sealed chambers. In real homes, the effect is less dramatic per plant, but multiple plants distributed across rooms measurably improve indoor air quality over time." },
+  { q: "How many plants do I need per room?", a: "A common guideline from NASA researcher Dr. B.C. Wolverton suggests one 6-8 inch plant per 100 square feet of space. For a typical 150 sq ft bedroom, 1-2 well-chosen plants can make a noticeable difference." },
+  { q: "Which plant is the most effective at purifying air?", a: "The Bamboo Palm and Peace Lily consistently rank highest in formaldehyde removal. Snake Plant excels at nighttime oxygen production. For comprehensive purification, a mix of plants targeting different toxins is most effective." },
+  { q: "Are air-purifying plants safe for pets?", a: "Some are, many are not. Spider Plant, Boston Fern, Bamboo Palm, and Areca Palm are confirmed pet-safe. Snake Plant, Peace Lily, English Ivy, Pothos, and Philodendron are toxic to cats and dogs. Always check before buying." },
+  { q: "Which plants release oxygen at night?", a: "Snake Plant, Aloe Vera, and certain orchids use CAM photosynthesis, absorbing CO2 and releasing oxygen at night. These are ideal bedroom plants." },
+  { q: "Air purifier vs. plants: which is better?", a: "They serve different roles. HEPA air purifiers are far more efficient at removing particulate matter (dust, pollen, smoke). Plants excel at removing gaseous VOCs that pass through HEPA filters. The best approach combines both." },
+  { q: "How can I tell if a plant is actually improving air quality?", a: "You won't see visible changes day to day. The benefits are cumulative: reduced headaches from VOCs in new furniture, better sleep from increased nighttime oxygen, and lower dust levels from increased humidity." },
+  { q: "Do I need to do anything special when I bring a new plant home?", a: "Inspect for pests, wipe leaves with a damp cloth to remove nursery residue, and quarantine the plant away from existing plants for 1-2 weeks. Repot into clean soil if the plant was grown with chemical fertilizers." },
+];
+---
+<Layout
+  title="Air Purifying Plants FAQ"
+  description="Do indoor plants really clean air? How many plants per room? Get science-backed answers to the most common questions about air purifying houseplants."
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+    <header class="mb-12">
+      <p class="text-xs font-semibold uppercase tracking-wider text-green-600 mb-3">Common Questions</p>
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tighter text-stone-900 mb-4">Frequently Asked Questions</h1>
+      <p class="text-base text-stone-500 leading-relaxed">Science-backed answers about indoor plants and air quality.</p>
+    </header>
+
+    <div class="space-y-3">
+      {faqs.map((faq, i) => (
+        <details class="group bg-white rounded-xl border border-stone-200/60 overflow-hidden">
+          <summary class="cursor-pointer px-6 py-4 flex items-center justify-between gap-4 text-sm font-semibold text-stone-800 hover:text-green-700 transition-colors marker:hidden">
+            {faq.q}
+            <svg class="shrink-0 w-4 h-4 text-stone-400 group-open:rotate-45 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </summary>
+          <div class="px-6 pb-4">
+            <p class="text-sm text-stone-600 leading-relaxed">{faq.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

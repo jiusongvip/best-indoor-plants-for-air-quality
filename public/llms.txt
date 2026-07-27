@@ -1,0 +1,44 @@
+# best-indoor-plants-for-air-quality.com - Site Overview
+
+> A science-backed guide to indoor plants that purify air, based on NASA Clean Air Study research. Covers 15 air-purifying plants with care guides, pet safety, and room-by-room recommendations.
+
+## Key Pages
+
+- [Home](https://best-indoor-plants-for-air-quality.com/): Complete guide to 15 best indoor plants for air quality. Includes plant comparison table, category browser, and plant recommendation tool.
+- [NASA Clean Air Study](https://best-indoor-plants-for-air-quality.com/nasa-clean-air-study): Deep dive into the 1989 NASA research that identified which houseplants filter benzene, formaldehyde, and trichloroethylene.
+- [FAQ](https://best-indoor-plants-for-air-quality.com/faq): Science-backed answers to common questions about indoor plants and air quality.
+- [Blog](https://best-indoor-plants-for-air-quality.com/blog): Expert articles on indoor plants, air quality, plant care, and science explainers.
+- [About](https://best-indoor-plants-for-air-quality.com/about): Mission and methodology behind Air Purifying Plants Guide.
+
+## Plant Pages
+
+- [Snake Plant](https://best-indoor-plants-for-air-quality.com/plants/snake-plant)
+- [Peace Lily](https://best-indoor-plants-for-air-quality.com/plants/peace-lily)
+- [Bamboo Palm](https://best-indoor-plants-for-air-quality.com/plants/bamboo-palm)
+- [Chrysanthemum](https://best-indoor-plants-for-air-quality.com/plants/chrysanthemum)
+- [Spider Plant](https://best-indoor-plants-for-air-quality.com/plants/spider-plant)
+- [Boston Fern](https://best-indoor-plants-for-air-quality.com/plants/boston-fern)
+- [Areca Palm](https://best-indoor-plants-for-air-quality.com/plants/areca-palm)
+- [English Ivy](https://best-indoor-plants-for-air-quality.com/plants/english-ivy)
+- [Rubber Plant](https://best-indoor-plants-for-air-quality.com/plants/rubber-plant)
+- [Chinese Evergreen](https://best-indoor-plants-for-air-quality.com/plants/chinese-evergreen)
+- [Dracaena](https://best-indoor-plants-for-air-quality.com/plants/dracaena)
+- [Golden Pothos](https://best-indoor-plants-for-air-quality.com/plants/pothos)
+- [Heartleaf Philodendron](https://best-indoor-plants-for-air-quality.com/plants/philodendron)
+- [ZZ Plant](https://best-indoor-plants-for-air-quality.com/plants/zz-plant)
+- [Aloe Vera](https://best-indoor-plants-for-air-quality.com/plants/aloe-vera)
+
+## Categories
+
+- [Low Light Plants](https://best-indoor-plants-for-air-quality.com/categories/low-light)
+- [Bedroom Plants](https://best-indoor-plants-for-air-quality.com/categories/bedroom)
+- [Pet-Safe Plants](https://best-indoor-plants-for-air-quality.com/categories/pet-safe)
+- [Beginner Plants](https://best-indoor-plants-for-air-quality.com/categories/beginner)
+- [Office Plants](https://best-indoor-plants-for-air-quality.com/categories/office)
+
+## Blog Posts
+
+- [How Many Plants Do You Need to Clean a Room's Air?](https://best-indoor-plants-for-air-quality.com/blog/how-many-plants-per-room)
+- [Air Purifier vs. Plants: Which One Actually Works Better?](https://best-indoor-plants-for-air-quality.com/blog/air-purifier-vs-plants)
+- [Do Indoor Plants Really Clean the Air? What Science Says](https://best-indoor-plants-for-air-quality.com/blog/do-plants-really-clean-air)
+- [White Mold on Indoor Plant Soil: Causes and Simple Fixes](https://best-indoor-plants-for-air-quality.com/blog/mold-on-houseplant-soil)

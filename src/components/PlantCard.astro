@@ -1,0 +1,45 @@
+---
+import type { Plant } from "../data/plants";
+
+export interface Props extends Plant {
+  index?: number;
+}
+
+const { slug, name, scientificName, description, airQualityScore, careDifficulty, lightLevel, petSafe, index = 0, image } = Astro.props;
+
+const difficultyLabel = careDifficulty === 1 ? "Easy" : careDifficulty === 2 ? "Moderate" : "Needs care";
+const lightLabel = lightLevel === "low" ? "Low light" : lightLevel === "medium" ? "Medium light" : "Bright light";
+const scoreColor = airQualityScore >= 8 ? "text-green-600" : airQualityScore >= 6 ? "text-green-500" : "text-stone-400";
+---
+<a
+  href={`/plants/${slug}`}
+  class="group block bg-white rounded-xl border border-stone-200/60 overflow-hidden hover:border-green-200 hover:shadow-md hover:shadow-green-50/30 transition-all duration-300"
+  style={`animation-delay: ${index * 60}ms`}
+>
+  <div class="aspect-[4/3] bg-gradient-to-br from-green-50 to-green-100/50 flex items-center justify-center relative overflow-hidden">
+    {image ? (
+      <img src={image} alt={name} width="400" height="300" loading="lazy" class="w-full h-full object-cover" />
+    ) : (
+      <div class="text-6xl opacity-40 group-hover:scale-110 transition-transform duration-500" aria-hidden="true">
+        {slug === "snake-plant" ? "🌿" : slug === "spider-plant" ? "🪴" : slug === "peace-lily" ? "🌸" : slug === "boston-fern" ? "🌱" : slug === "aloe-vera" ? "🌵" : slug === "english-ivy" ? "🍃" : slug === "rubber-plant" ? "🪴" : slug === "bamboo-palm" ? "🌴" : slug === "dracaena" ? "🌿" : slug === "pothos" ? "🍃" : slug === "philodendron" ? "🌱" : slug === "areca-palm" ? "🌴" : slug === "chinese-evergreen" ? "🌿" : slug === "zz-plant" ? "🪴" : slug === "chrysanthemum" ? "🌺" : "🌿"}
+      </div>
+    )}
+  </div>
+  <div class="p-5">
+    <div class="flex items-center justify-between mb-1.5">
+      <h3 class="font-semibold text-stone-800 group-hover:text-green-700 transition-colors text-base">{name}</h3>
+      <span class={`text-xs font-medium ${scoreColor}`}>{airQualityScore}/10</span>
+    </div>
+    <p class="text-xs text-stone-400 italic mb-2">{scientificName}</p>
+    <p class="text-sm text-stone-600 leading-relaxed line-clamp-2">{description.split(".")[0]}.</p>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-stone-100 text-stone-600">{difficultyLabel}</span>
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-stone-100 text-stone-600">{lightLabel}</span>
+      {petSafe ? (
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-green-50 text-green-700">Pet safe</span>
+      ) : (
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-red-50 text-red-600">Not pet safe</span>
+      )}
+    </div>
+  </div>
+</a>

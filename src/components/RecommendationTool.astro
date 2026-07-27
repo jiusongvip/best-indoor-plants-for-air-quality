@@ -1,0 +1,161 @@
+---
+import { plants } from "../data/plants";
+
+const plantData = plants.map(p => ({
+  slug: p.slug,
+  name: p.name,
+  airQualityScore: p.airQualityScore,
+  careDifficulty: p.careDifficulty,
+  lightLevel: p.lightLevel,
+  petSafe: p.petSafe,
+  description: p.description.split(".")[0] + ".",
+}));
+---
+
+<div
+  id="plant-recommender"
+  class="bg-white rounded-2xl border border-stone-200/60 overflow-hidden"
+>
+  <div class="p-8 md:p-10">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+      </div>
+      <h2 class="text-xl font-bold text-stone-900">Find Your Perfect Plant</h2>
+    </div>
+    <p class="text-sm text-stone-500 mb-8 leading-relaxed">Answer three quick questions and we will recommend the best air-purifying plants for your space.</p>
+
+    <div id="recommender-steps">
+      <div id="step-1" class="mb-6">
+        <p class="text-sm font-semibold text-stone-700 mb-3">1. How much light does your space get?</p>
+        <div class="flex flex-wrap gap-2">
+          <button data-q="light" data-v="low" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">🌑</span> Low / Shade</button>
+          <button data-q="light" data-v="medium" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">☀️</span> Medium / Indirect</button>
+          <button data-q="light" data-v="bright" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">🔆</span> Bright / Direct</button>
+        </div>
+      </div>
+
+      <div id="step-2" class="mb-6 hidden">
+        <p class="text-sm font-semibold text-stone-700 mb-3">2. How experienced are you with plants?</p>
+        <div class="flex flex-wrap gap-2">
+          <button data-q="care" data-v="1" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">⭐</span> Beginner</button>
+          <button data-q="care" data-v="2" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">⭐⭐</span> Some experience</button>
+          <button data-q="care" data-v="3" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">⭐⭐⭐</span> Plant expert</button>
+        </div>
+      </div>
+
+      <div id="step-3" class="mb-6 hidden">
+        <p class="text-sm font-semibold text-stone-700 mb-3">3. Do you have pets at home?</p>
+        <div class="flex flex-wrap gap-2">
+          <button data-q="pets" data-v="yes" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">🐾</span> Yes, I have pets</button>
+          <button data-q="pets" data-v="no" class="step-btn px-4 py-2.5 rounded-xl border border-stone-200 text-sm font-medium text-stone-600 hover:border-green-300 hover:bg-green-50 hover:text-green-700 transition-all duration-200"><span class="block text-base mb-0.5">🏠</span> No pets</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="recommender-results" class="hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <p class="text-sm font-semibold text-green-600 mb-1">Your Matches</p>
+          <p class="text-xs text-stone-400" id="results-count"></p>
+        </div>
+        <button id="reset-btn" class="text-xs font-medium text-stone-400 hover:text-stone-600 transition-colors flex items-center gap-1">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Start over
+        </button>
+      </div>
+      <div id="results-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+    </div>
+
+    <div id="progress-dots" class="flex items-center gap-1.5 mt-8">
+      <span class="w-2 h-2 rounded-full bg-green-600 transition-colors duration-300" data-dot="0"></span>
+      <span class="w-2 h-2 rounded-full bg-stone-200 transition-colors duration-300" data-dot="1"></span>
+      <span class="w-2 h-2 rounded-full bg-stone-200 transition-colors duration-300" data-dot="2"></span>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+const ALL_PLANTS = [{"slug": "snake-plant", "name": "Snake Plant", "airQualityScore": 8, "careDifficulty": 1, "lightLevel": "low", "petSafe": false, "description": "Renowned for its ability to convert CO2 into oxygen at night, making it ideal for bedrooms."}, {"slug": "spider-plant", "name": "Spider Plant", "airQualityScore": 7, "careDifficulty": 1, "lightLevel": "medium", "petSafe": true, "description": "A prolific air purifier that produces cascading baby plantlets."}, {"slug": "peace-lily", "name": "Peace Lily", "airQualityScore": 9, "careDifficulty": 2, "lightLevel": "low", "petSafe": false, "description": "Elegant white blooms and glossy deep green leaves make this one of the most beautiful air-purifying plants."}, {"slug": "boston-fern", "name": "Boston Fern", "airQualityScore": 8, "careDifficulty": 3, "lightLevel": "medium", "petSafe": true, "description": "The most effective natural humidifier among houseplants."}, {"slug": "aloe-vera", "name": "Aloe Vera", "airQualityScore": 5, "careDifficulty": 1, "lightLevel": "bright", "petSafe": false, "description": "A dual-purpose plant that filters benzene and formaldehyde from the air while providing medicinal gel."}, {"slug": "english-ivy", "name": "English Ivy", "airQualityScore": 7, "careDifficulty": 2, "lightLevel": "medium", "petSafe": false, "description": "Shown to reduce airborne mold by up to 60 percent in studies."}, {"slug": "rubber-plant", "name": "Rubber Plant", "airQualityScore": 7, "careDifficulty": 2, "lightLevel": "bright", "petSafe": false, "description": "A striking statement plant with large, glossy burgundy-green leaves."}, {"slug": "bamboo-palm", "name": "Bamboo Palm", "airQualityScore": 9, "careDifficulty": 2, "lightLevel": "medium", "petSafe": true, "description": "A tropical beauty that topped NASA list for formaldehyde removal."}, {"slug": "dracaena", "name": "Dracaena", "airQualityScore": 6, "careDifficulty": 1, "lightLevel": "low", "petSafe": false, "description": "With spiky, red-edged leaves atop slender stems, dracaena brings a modern sculptural quality to interiors."}, {"slug": "pothos", "name": "Golden Pothos", "airQualityScore": 6, "careDifficulty": 1, "lightLevel": "low", "petSafe": false, "description": "Often called the cubicle plant for its near-indestructibility."}, {"slug": "philodendron", "name": "Heartleaf Philodendron", "airQualityScore": 6, "careDifficulty": 1, "lightLevel": "medium", "petSafe": false, "description": "A graceful trailing plant with glossy heart-shaped leaves."}, {"slug": "areca-palm", "name": "Areca Palm", "airQualityScore": 8, "careDifficulty": 2, "lightLevel": "bright", "petSafe": true, "description": "An outstanding natural humidifier that releases significant moisture into dry air."}, {"slug": "chinese-evergreen", "name": "Chinese Evergreen", "airQualityScore": 7, "careDifficulty": 1, "lightLevel": "low", "petSafe": false, "description": "One of the most forgiving low-light houseplants available."}, {"slug": "zz-plant", "name": "ZZ Plant", "airQualityScore": 6, "careDifficulty": 1, "lightLevel": "low", "petSafe": false, "description": "Nearly indestructible with glossy, dark green leaves that reflect light."}, {"slug": "chrysanthemum", "name": "Chrysanthemum", "airQualityScore": 9, "careDifficulty": 2, "lightLevel": "bright", "petSafe": false, "description": "The highest-scoring plant in NASA study for benzene removal."}];
+
+  (function() {
+    var currentStep = 0;
+    var answers = { light: null, care: null, pets: null };
+    var btnBase = 'step-btn px-4 py-2.5 rounded-xl border text-sm font-medium transition-all duration-200';
+    var btnActive = 'border-green-500 bg-green-50 text-green-700 ring-2 ring-green-200';
+    var btnInactive = 'border-stone-200 text-stone-600';
+
+    function updateDots() {
+      var dots = document.querySelectorAll('[data-dot]');
+      for (var i = 0; i < dots.length; i++) {
+        dots[i].className = 'w-2 h-2 rounded-full transition-colors duration-300 ' + (i <= currentStep ? 'bg-green-600' : 'bg-stone-200');
+      }
+    }
+
+    function showResults() {
+      var filtered = ALL_PLANTS.slice();
+      if (answers.light === 'low') filtered = filtered.filter(function(p) { return p.lightLevel === 'low'; });
+      else if (answers.light === 'medium') filtered = filtered.filter(function(p) { return p.lightLevel === 'low' || p.lightLevel === 'medium'; });
+
+      var maxDiff = parseInt(answers.care) || 3;
+      filtered = filtered.filter(function(p) { return p.careDifficulty <= maxDiff; });
+      if (answers.pets === 'yes') filtered = filtered.filter(function(p) { return p.petSafe; });
+      filtered.sort(function(a, b) { return b.airQualityScore - a.airQualityScore; });
+
+      document.getElementById('recommender-steps').classList.add('hidden');
+      document.getElementById('progress-dots').classList.add('hidden');
+      document.getElementById('recommender-results').classList.remove('hidden');
+      document.getElementById('results-count').textContent = filtered.length + ' plant' + (filtered.length !== 1 ? 's' : '') + ' match your needs';
+
+      var grid = document.getElementById('results-grid');
+      grid.innerHTML = filtered.map(function(p) {
+        var diff = p.careDifficulty === 1 ? 'Easy' : p.careDifficulty === 2 ? 'Moderate' : 'Needs care';
+        return '<a href="/plants/' + p.slug + '" class="flex items-start gap-3 p-4 rounded-xl border border-stone-200/60 hover:border-green-200 hover:bg-green-50/30 transition-all duration-200 group">' +
+          '<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center shrink-0 text-lg group-hover:scale-110 transition-transform">🌿</div>' +
+          '<div class="min-w-0">' +
+          '<p class="text-sm font-semibold text-stone-800 group-hover:text-green-700 transition-colors">' + p.name + '</p>' +
+          '<p class="text-xs text-stone-500 mt-0.5 line-clamp-2">' + p.description + '</p>' +
+          '<div class="flex items-center gap-2 mt-2"><span class="text-xs font-medium text-green-600">Purification ' + p.airQualityScore + '/10</span><span class="text-xs text-stone-400">|</span><span class="text-xs text-stone-500">' + diff + '</span></div>' +
+          '</div></a>';
+      }).join('');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p class="col-span-2 text-sm text-stone-400 text-center py-8">No exact matches. Try adjusting your answers.</p>';
+      }
+    }
+
+    var btns = document.querySelectorAll('.step-btn');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function() {
+        var q = this.getAttribute('data-q');
+        var v = this.getAttribute('data-v');
+        answers[q] = v;
+
+        var sibs = this.parentElement.querySelectorAll('.step-btn');
+        for (var j = 0; j < sibs.length; j++) { sibs[j].className = btnBase + ' ' + btnInactive; }
+        this.className = btnBase + ' ' + btnActive;
+
+        if (currentStep < 2) {
+          currentStep++;
+          updateDots();
+          var next = document.getElementById('step-' + (currentStep + 1));
+          next.classList.remove('hidden');
+          next.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else { showResults(); }
+      });
+    }
+
+    document.getElementById('reset-btn').addEventListener('click', function() {
+      currentStep = 0;
+      answers.light = answers.care = answers.pets = null;
+      document.getElementById('recommender-steps').classList.remove('hidden');
+      document.getElementById('progress-dots').classList.remove('hidden');
+      document.getElementById('recommender-results').classList.add('hidden');
+      document.getElementById('step-2').classList.add('hidden');
+      document.getElementById('step-3').classList.add('hidden');
+      var all = document.querySelectorAll('.step-btn');
+      for (var k = 0; k < all.length; k++) { all[k].className = btnBase + ' ' + btnInactive; }
+      updateDots();
+    });
+  })();
+</script>

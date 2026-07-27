@@ -1,0 +1,168 @@
+---
+import Layout from "../../components/Layout.astro";
+import PlantCard from "../../components/PlantCard.astro";
+import { getPlant, plants } from "../../data/plants";
+
+export function getStaticPaths() {
+  return plants.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const plant = getPlant(slug!);
+
+if (!plant) return Astro.redirect("/404");
+
+const title = `${plant.name} Care Guide | Air Purifying Guide`;
+const description = `${plant.name} filters ${plant.toxinsFiltered.slice(0, 3).join(", ")}. Complete care guide with watering schedule, light needs, pet safety, and air purification science.`;
+
+const difficultyLabel = plant.careDifficulty === 1 ? "Easy" : plant.careDifficulty === 2 ? "Moderate" : "Needs care";
+const lightLabel = plant.lightLevel === "low" ? "Low light" : plant.lightLevel === "medium" ? "Medium light" : "Bright indirect light";
+
+const relatedPlants = plants.filter((p) => p.slug !== plant.slug && p.toxinsFiltered.some((t) => plant.toxinsFiltered.includes(t))).slice(0, 3);
+---
+<Layout title={title} description={description}>
+  <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+    <nav class="text-xs text-stone-400 mb-8">
+      <a href="/" class="hover:text-stone-600 transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-stone-600">{plant.name}</span>
+    </nav>
+
+    <header class="mb-10">
+      <p class="text-xs font-semibold uppercase tracking-wider text-green-600 mb-3">Plant Profile</p>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tighter leading-tight text-stone-900 mb-4">
+        {plant.name}: Air Purifying Powerhouse
+      </h1>
+      <p class="text-base md:text-lg text-stone-500 leading-relaxed max-w-2xl">{plant.description}</p>
+    </header>
+
+    <div class="aspect-[4/3] rounded-2xl bg-gradient-to-br from-green-50 to-green-100/40 flex items-center justify-center mb-12 overflow-hidden">
+      {plant.image ? (
+        <img src={plant.image} alt={plant.name} width="1200" height="900" class="w-full h-full object-cover rounded-2xl" />
+     ) : (
+        <span class="text-8xl md:text-9xl opacity-30" aria-hidden="true">
+          {plant.slug === "snake-plant" ? "🌿" : plant.slug === "spider-plant" ? "🪴" : plant.slug === "peace-lily" ? "🌸" : plant.slug === "boston-fern" ? "🌱" : plant.slug === "aloe-vera" ? "🌵" : plant.slug === "english-ivy" ? "🍃" : plant.slug === "rubber-plant" ? "🪴" : plant.slug === "bamboo-palm" ? "🌴" : plant.slug === "dracaena" ? "🌿" : plant.slug === "pothos" ? "🍃" : plant.slug === "philodendron" ? "🌱" : plant.slug === "areca-palm" ? "🌴" : plant.slug === "chinese-evergreen" ? "🌿" : plant.slug === "zz-plant" ? "🪴" : plant.slug === "chrysanthemum" ? "🌺" : "🌿"}
+        </span>
+      )}
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+      <div class="bg-white rounded-xl border border-stone-200/60 p-4">
+        <p class="text-xs text-stone-400 font-medium uppercase tracking-wider mb-2">Air Purification</p>
+        <div class="flex items-center gap-2 mb-1">
+          <div class="flex-1 h-2 bg-stone-100 rounded-full overflow-hidden">
+            <div class={`h-full rounded-full transition-all duration-700 ${plant.airQualityScore >= 8 ? "bg-green-600" : plant.airQualityScore >= 6 ? "bg-green-500" : "bg-stone-400"}`} style={`width: ${plant.airQualityScore * 10}%`}></div>
+          </div>
+          <span class="text-sm font-bold text-stone-800">{plant.airQualityScore}<span class="text-xs font-normal text-stone-400">/10</span></span>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl border border-stone-200/60 p-4">
+        <p class="text-xs text-stone-400 font-medium uppercase tracking-wider mb-1">Difficulty</p>
+        <p class="text-xl font-bold text-stone-800">{difficultyLabel}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-stone-200/60 p-4">
+        <p class="text-xs text-stone-400 font-medium uppercase tracking-wider mb-1">Light Needs</p>
+        <p class="text-xl font-bold text-stone-800">{lightLabel}</p>
+      </div>
+      <div class="bg-white rounded-xl border border-stone-200/60 p-4">
+        <p class="text-xs text-stone-400 font-medium uppercase tracking-wider mb-1">Pet Safe</p>
+        <p class={`text-xl font-bold ${plant.petSafe ? "text-green-600" : "text-red-500"}`}>{plant.petSafe ? "Yes" : "No"}</p>
+      </div>
+    </div>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-stone-900 mb-4">Toxins Filtered</h2>
+      <div class="flex flex-wrap gap-2">
+        {plant.toxinsFiltered.map((toxin) => (
+          <span class="inline-flex items-center px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-sm font-medium">{toxin}</span>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-stone-900 mb-4">Care Guide</h2>
+      <div class="bg-white rounded-xl border border-stone-200/60 p-6">
+        <p class="text-stone-600 leading-relaxed">{plant.careSummary}</p>
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3">
+            <span class="text-green-500 mt-0.5 shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Light</p>
+              <p class="text-sm text-stone-500">{lightLabel}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-blue-500 mt-0.5 shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </span>
+            <div>
+              <p class="text-sm font-medium text-stone-800">Water</p>
+              <p class="text-sm text-stone-500">{plant.careDifficulty === 1 ? "Infrequent" : plant.careDifficulty === 2 ? "Regular" : "Consistent moisture"}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-stone-900 mb-4">Key Benefits</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {plant.benefits.map((benefit) => (
+          <li class="flex items-center gap-2.5 text-sm text-stone-600">
+            <span class="text-green-500 shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </span>
+            {benefit}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {!plant.petSafe && (
+      <section class="mb-12 bg-red-50 border border-red-100 rounded-xl p-5">
+        <h2 class="text-lg font-bold text-red-700 mb-2 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+          Not Pet Safe
+        </h2>
+        <p class="text-sm text-red-700 leading-relaxed">
+          This plant is toxic to cats and dogs if ingested. Keep it out of reach of pets, or consider one of our <a href="/categories/pet-safe" class="underline font-medium">pet-safe alternatives</a>.
+        </p>
+      </section>
+    )}
+
+    {plant.funFact && (
+      <section class="mb-12 bg-amber-50 border border-amber-100 rounded-xl p-5">
+        <h2 class="text-lg font-bold text-amber-700 mb-2 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          Did You Know?
+        </h2>
+        <p class="text-sm text-amber-700 leading-relaxed">{plant.funFact}</p>
+      </section>
+    )}
+        {relatedPlants.length > 0 && (
+      <section class="border-t border-stone-200/60 pt-10">
+        <h2 class="text-xl font-bold text-stone-900 mb-6">Similar Air-Purifying Plants</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {relatedPlants.map((p) => <PlantCard {...p} />)}
+        </div>
+      </section>
+    )}
+  </article>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Thing",
+  "name": plant.name + " (" + plant.scientificName + ")",
+  "description": plant.description,
+  "additionalProperty": [
+    { "@type": "PropertyValue", "name": "Air Purification Score", "value": plant.airQualityScore + "/10" },
+    { "@type": "PropertyValue", "name": "Care Difficulty", "value": difficultyLabel },
+    { "@type": "PropertyValue", "name": "Light Needs", "value": lightLabel },
+    { "@type": "PropertyValue", "name": "Pet Safe", "value": plant.petSafe ? "Yes" : "No" },
+    { "@type": "PropertyValue", "name": "Toxins Filtered", "value": plant.toxinsFiltered.join(", ") }
+  ],
+  "sameAs": "https://best-indoor-plants-for-air-quality.com/plants/" + plant.slug
+})} />
+</Layout>

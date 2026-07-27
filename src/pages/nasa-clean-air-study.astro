@@ -1,0 +1,76 @@
+---
+import Layout from "../components/Layout.astro";
+import { plants } from "../data/plants";
+---
+<Layout
+  title="NASA Clean Air Study Explained"
+  description="Deep dive into the 1989 NASA Clean Air Study that identified which houseplants filter benzene, formaldehyde, and trichloroethylene. Includes original findings and practical guidance."
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+    <header class="mb-10">
+      <p class="text-xs font-semibold uppercase tracking-wider text-green-600 mb-3">Research Deep Dive</p>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tighter leading-tight text-stone-900 mb-4">The NASA Clean Air Study</h1>
+      <p class="text-base md:text-lg text-stone-500 leading-relaxed">
+        In 1989, NASA scientists published a landmark study that changed how we think about houseplants. Their research proved that common indoor plants don't just decorate our homes — they actively purify the air we breathe.
+      </p>
+    </header>
+
+    <div class="prose prose-stone max-w-none">
+      <h2 class="text-xl font-bold text-stone-900 mt-10 mb-4">Why NASA Studied Houseplants</h2>
+      <p class="text-stone-600 leading-relaxed mb-4">
+        The study wasn't about home decor. NASA needed to solve a critical problem for long-duration space habitats: sealed environments accumulate dangerous levels of volatile organic compounds (VOCs) from synthetic materials, off-gassing from equipment, and human metabolism. Without Earth's natural atmospheric cleansing, astronauts would be breathing toxic air within weeks.
+      </p>
+      <p class="text-stone-600 leading-relaxed mb-4">
+        The solution NASA investigated was elegant and ancient: use plants as living air filters. Over two years, researchers led by Dr. B.C. Wolverton tested dozens of common houseplants in sealed chambers, measuring their ability to remove benzene, formaldehyde, and trichloroethylene — three of the most common indoor air pollutants.
+      </p>
+
+      <h2 class="text-xl font-bold text-stone-900 mt-10 mb-4">The Three Big Pollutants</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="bg-white border border-stone-200/60 rounded-xl p-4">
+          <h3 class="font-semibold text-stone-800 text-sm mb-1">Benzene</h3>
+          <p class="text-xs text-stone-500 leading-relaxed">Found in plastics, detergents, cigarette smoke, and paint. Linked to anemia and leukemia.</p>
+        </div>
+        <div class="bg-white border border-stone-200/60 rounded-xl p-4">
+          <h3 class="font-semibold text-stone-800 text-sm mb-1">Formaldehyde</h3>
+          <p class="text-xs text-stone-500 leading-relaxed">Found in particle board, foam insulation, carpets, and paper products. A known carcinogen.</p>
+        </div>
+        <div class="bg-white border border-stone-200/60 rounded-xl p-4">
+          <h3 class="font-semibold text-stone-800 text-sm mb-1">Trichloroethylene</h3>
+          <p class="text-xs text-stone-500 leading-relaxed">Found in adhesives, inks, paints, and varnishes. Linked to liver and kidney damage.</p>
+        </div>
+      </div>
+
+      <h2 class="text-xl font-bold text-stone-900 mt-10 mb-4">Key Findings</h2>
+      <p class="text-stone-600 leading-relaxed mb-4">
+        The study tested each plant in a sealed Plexiglas chamber injected with a known quantity of VOC. After 24 hours, researchers measured how much of the chemical remained. The results were striking:
+      </p>
+      <ul class="list-disc pl-5 space-y-2 text-stone-600 text-sm leading-relaxed mb-6">
+        <li>Bamboo Palm removed <strong>the most formaldehyde</strong> of any plant tested</li>
+        <li>Peace Lily excelled at removing <strong>all three major VOCs</strong> simultaneously</li>
+        <li>English Ivy was most effective at removing <strong>benzene</strong></li>
+        <li>Snake Plant showed exceptional <strong>nighttime CO2-to-oxygen conversion</strong></li>
+        <li>The plant's root zone and soil microorganisms contributed significantly to the filtration</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-stone-900 mt-10 mb-4">The 15 Plants We Cover</h2>
+      <p class="text-stone-600 leading-relaxed mb-4">
+        Each of the 15 plants on this site is among those studied by NASA. Their effectiveness varies by pollutant type and by growing conditions, but all have demonstrated measurable air purification capability in controlled settings.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {plants.map((p) => (
+          <a href={`/plants/${p.slug}`} class="inline-flex items-center px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-sm font-medium hover:bg-green-100 transition-colors">
+            {p.name}
+          </a>
+        ))}
+      </div>
+
+      <h2 class="text-xl font-bold text-stone-900 mt-10 mb-4">Real-World Application</h2>
+      <p class="text-stone-600 leading-relaxed mb-4">
+        It's important to note that a typical home isn't a sealed NASA chamber. Real-world effectiveness depends on air circulation, number of plants, room size, and ventilation. A single plant won't transform a polluted room overnight. But distributed across your home — especially in newly furnished spaces, bedrooms, and home offices — plants provide a measurable, cumulative improvement to indoor air quality.
+      </p>
+      <p class="text-stone-600 leading-relaxed">
+        The bottom line: NASA's research proved that plants work. The question isn't <em>whether</em> they clean air, but <em>how many you need</em> to see the benefit in your specific space.
+      </p>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,151 @@
+---
+import Layout from "../components/Layout.astro";
+import PlantCard from "../components/PlantCard.astro";
+import CategoryCard from "../components/CategoryCard.astro";
+import RecommendationTool from "../components/RecommendationTool.astro";
+import { plants, categories } from "../data/plants";
+
+const title = "Best Indoor Plants for Air Quality | 2026 Guide";
+const description = "Discover the 15 best indoor plants for air quality, backed by NASA research. Includes care tips, pet safety, and room-by-room recommendations for cleaner air at home.";
+---
+<Layout title={title} description={description}>
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 md:pt-24 md:pb-28">
+    <div class="max-w-3xl">
+      <p class="text-xs font-semibold uppercase tracking-wider text-green-600 mb-4">Air Quality Guide</p>
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tighter leading-none text-stone-900 mb-6">
+        Best Indoor Plants for<br class="hidden sm:block" />
+        Air Quality
+      </h1>
+      <p class="text-base md:text-lg text-stone-500 leading-relaxed max-w-2xl">
+        Indoor air can be 2-5x more polluted than outdoor air. These 15 plants are proven by NASA research to filter toxins, boost oxygen, and create a healthier home — with detailed care guides for every one.
+      </p>
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a href="#plants" class="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors">
+          View all plants
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#compare" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-stone-200 text-stone-700 text-sm font-medium rounded-lg hover:border-stone-300 hover:bg-stone-50 transition-colors">
+          Compare plants
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <RecommendationTool />
+  </section>
+
+  <section id="plants" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-stone-900">All 15 Plants</h2>
+        <p class="text-sm text-stone-500 mt-1.5">Ranked by air purification effectiveness</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      {plants.sort((a, b) => b.airQualityScore - a.airQualityScore).map((plant, i) => (
+        <PlantCard {...plant} index={i} />
+      ))}
+    </div>
+  </section>
+
+  <section id="compare" class="bg-white border-y border-stone-200/60 py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mb-10">
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-stone-900">Quick Comparison</h2>
+        <p class="text-sm text-stone-500 mt-1.5">Find the right plant for your space at a glance</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead>
+            <tr class="border-b border-stone-200">
+              <th class="py-3 pr-4 font-semibold text-stone-700 whitespace-nowrap">Plant</th>
+              <th class="py-3 px-3 font-semibold text-stone-700 whitespace-nowrap">Purification</th>
+              <th class="py-3 px-3 font-semibold text-stone-700 whitespace-nowrap">Difficulty</th>
+              <th class="py-3 px-3 font-semibold text-stone-700 whitespace-nowrap">Light</th>
+              <th class="py-3 px-3 font-semibold text-stone-700 whitespace-nowrap">Pet Safe</th>
+              <th class="py-3 pl-3 font-semibold text-stone-700 whitespace-nowrap">Key Toxins Filtered</th>
+            </tr>
+          </thead>
+          <tbody>
+            {plants.sort((a, b) => b.airQualityScore - a.airQualityScore).map((p) => (
+              <tr class="border-b border-stone-100 hover:bg-green-50/30 transition-colors">
+                <td class="py-3 pr-4">
+                  <a href={`/plants/${p.slug}`} class="font-medium text-stone-800 hover:text-green-600 transition-colors whitespace-nowrap">{p.name}</a>
+                </td>
+                <td class="py-3 px-3">
+                  <span class={`inline-flex items-center gap-1 text-xs font-medium ${p.airQualityScore >= 8 ? "text-green-600" : p.airQualityScore >= 6 ? "text-green-500" : "text-stone-500"}`}>
+                    {p.airQualityScore}/10
+                  </span>
+                </td>
+                <td class="py-3 px-3">
+                  <span class="text-xs text-stone-600">{p.careDifficulty === 1 ? "Easy" : p.careDifficulty === 2 ? "Moderate" : "Needs care"}</span>
+                </td>
+                <td class="py-3 px-3">
+                  <span class="text-xs text-stone-600">{p.lightLevel === "low" ? "Low" : p.lightLevel === "medium" ? "Medium" : "Bright"}</span>
+                </td>
+                <td class="py-3 px-3">
+                  {p.petSafe ? (
+                    <span class="inline-flex items-center gap-1 text-xs font-medium text-green-600">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                      Yes
+                    </span>
+                  ) : (
+                    <span class="text-xs text-red-500">No</span>
+                  )}
+                </td>
+                <td class="py-3 pl-3 text-xs text-stone-500">{p.toxinsFiltered.join(", ")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="max-w-3xl mb-10">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-stone-900">Find Plants by Your Needs</h2>
+      <p class="text-sm text-stone-500 mt-1.5">Browse curated collections for every space and skill level</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      {categories.map((cat) => (
+        <CategoryCard
+          slug={cat.slug}
+          title={cat.title}
+          description={cat.description}
+          count={plants.filter((p) => {
+            if (cat.slug === "low-light") return p.lightLevel === "low";
+            if (cat.slug === "pet-safe") return p.petSafe;
+            if (cat.slug === "beginner") return p.careDifficulty === 1;
+            return true;
+          }).length}
+        />
+      ))}
+    </div>
+  </section>
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "headline": "15 Best Indoor Plants for Air Quality (2026 Expert Guide)",
+  "description": "Discover the 15 best indoor plants for air quality, backed by NASA research. Includes care tips, pet safety, and room-by-room recommendations for cleaner air at home.",
+  "datePublished": "2026-07-01",
+  "dateModified": "2026-07-27",
+  "author": { "@type": "Organization", "name": "Air Purifying Plants Guide" },
+  "publisher": { "@type": "Organization", "name": "Air Purifying Plants Guide", "url": "https://best-indoor-plants-for-air-quality.com" },
+  "about": {
+    "@type": "ItemList",
+    "itemListElement": plants.sort((a, b) => b.airQualityScore - a.airQualityScore).map((p, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "item": {
+        "@type": "Thing",
+        "name": p.name,
+        "description": p.description.split(".")[0],
+        "url": "https://best-indoor-plants-for-air-quality.com/plants/" + p.slug
+      }
+    }))
+  }
+})} />
+</Layout>

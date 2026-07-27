@@ -1,0 +1,55 @@
+---
+import Layout from "../../components/Layout.astro";
+import PlantCard from "../../components/PlantCard.astro";
+import { getCategory, plants } from "../../data/plants";
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: "low-light" } },
+    { params: { slug: "bedroom" } },
+    { params: { slug: "pet-safe" } },
+    { params: { slug: "beginner" } },
+    { params: { slug: "office" } },
+  ];
+}
+
+const { slug } = Astro.params;
+const category = getCategory(slug!);
+if (!category) return Astro.redirect("/404");
+
+const filteredPlants = plants.filter((p) => {
+  if (slug === "low-light") return p.lightLevel === "low";
+  if (slug === "pet-safe") return p.petSafe;
+  if (slug === "beginner") return p.careDifficulty === 1;
+  if (slug === "bedroom") return p.careDifficulty <= 2 && p.lightLevel !== "bright";
+  if (slug === "office") return p.careDifficulty === 1 && p.lightLevel !== "bright";
+  return true;
+});
+
+const title = `${category.title} for Clean Air`;
+const description = `${category.description} Each plant included with care difficulty, light requirements, and air purification scores based on NASA research.`;
+---
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+    <nav class="text-xs text-stone-400 mb-8">
+      <a href="/" class="hover:text-stone-600 transition-colors">Home</a>
+      <span class="mx-2">/</span>
+      <span class="text-stone-600">{category.title}</span>
+    </nav>
+
+    <header class="mb-10">
+      <p class="text-xs font-semibold uppercase tracking-wider text-green-600 mb-3">Plant Collection</p>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tighter text-stone-900 mb-4">{category.title}</h1>
+      <p class="text-base text-stone-500 leading-relaxed max-w-2xl">{category.description}</p>
+    </header>
+
+    <h2 class="text-xl font-bold text-stone-900 mb-6">Plants in This Category</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      {filteredPlants.map((plant, i) => <PlantCard {...plant} index={i} />)}
+    </div>
+
+    {filteredPlants.length === 0 && (
+      <p class="text-stone-400 text-center py-20">No plants match this category yet. Check back soon.</p>
+    )}
+  </div>
+</Layout>

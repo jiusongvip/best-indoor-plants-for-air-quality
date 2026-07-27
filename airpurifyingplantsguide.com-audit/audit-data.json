@@ -1,0 +1,101 @@
+{
+  "summary": {
+    "health_score": 53,
+    "business_type": "Content/Affiliate - Indoor Plants & Air Quality Guide",
+    "url": "https://best-indoor-plants-for-air-quality.com",
+    "pages_crawled": 29,
+    "site_platform": "Astro (Static Site Generation)"
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 13,
+      "max_score": 22,
+      "what_works": ["robots.txt correctly configured with sitemap reference","Clean URL structure","All pages return 200 status","Sitemap generated and valid with 29 URLs"],
+      "findings": [
+        {"title":"Missing canonical URLs","severity":"Critical","description":"No rel=canonical tag found in any page head.","recommendation":"Add rel=canonical to Layout.astro."},
+        {"title":"Sitemap missing lastmod/priority","severity":"Medium","description":"Sitemap entries lack lastmod timestamps and priority values.","recommendation":"Configure @astrojs/sitemap with lastmod and priority options."},
+        {"title":"No security headers","severity":"Low","description":"Standard security headers not set.","recommendation":"Configure web server or CDN to add security headers."}
+      ]
+    },
+    {
+      "name": "On-Page SEO",
+      "score": 11,
+      "max_score": 20,
+      "what_works": ["Unique meta descriptions on all pages","Proper H1 tag on every page","Clean URL slugs","Mobile-responsive navigation"],
+      "findings": [
+        {"title":"Double site-name in blog post title","severity":"Critical","description":"how-many-plants-per-room has doubled site name suffix.","recommendation":"Remove site-name from blog post title props."},
+        {"title":"Missing OG image tags","severity":"High","description":"No og:image or twitter:image.","recommendation":"Add og:image to Layout.astro with default social preview image."},
+        {"title":"Heading hierarchy violation","severity":"High","description":"Homepage jumps from H1 to H3, skipping H2.","recommendation":"Change RecommendationTool heading from H3 to H2."},
+        {"title":"Homepage H1 broken with br tag","severity":"Medium","description":"H1 split by br tag.","recommendation":"Use CSS max-width instead of br tag in H1."}
+      ]
+    },
+    {
+      "name": "Content Quality",
+      "score": 14,
+      "max_score": 23,
+      "what_works": ["Strong homepage content","NASA Clean Air Study page","Well-structured FAQ","Plant pages include scientific names and care guides"],
+      "findings": [
+        {"title":"Blog posts are thin (400-600 words)","severity":"High","description":"4 blog posts are 400-600 words each.","recommendation":"Expand to 1500-2500+ words with comprehensive coverage."},
+        {"title":"No author credentials","severity":"High","description":"About page brief, lacks author bios/credentials.","recommendation":"Add author bio with credentials, cite peer-reviewed sources."},
+        {"title":"No privacy policy","severity":"Medium","description":"Missing privacy policy page.","recommendation":"Add privacy policy and terms pages."},
+        {"title":"Templated plant page content","severity":"Medium","description":"All 15 plant pages use same template structure.","recommendation":"Add unique content beyond data values to each plant page."}
+      ]
+    },
+    {
+      "name": "Schema/Structured Data",
+      "score": 4,
+      "max_score": 10,
+      "what_works": ["Organization schema on all pages","WebSite schema","FAQPage schema on FAQ page","Article schema on blog posts"],
+      "findings": [
+        {"title":"Wrong homepage schema type","severity":"High","description":"Homepage uses Article instead of CollectionPage.","recommendation":"Change homepage schema to CollectionPage with ItemList."},
+        {"title":"No plant page schema","severity":"High","description":"Individual plant pages have no JSON-LD.","recommendation":"Add schema to each plant page."},
+        {"title":"Missing BreadcrumbList schema","severity":"Medium","description":"Visual breadcrumbs lack structured data.","recommendation":"Add BreadcrumbList JSON-LD to pages with breadcrumbs."}
+      ]
+    },
+    {
+      "name": "Performance (CWV)",
+      "score": 6,
+      "max_score": 10,
+      "what_works": ["Static HTML pages","Small page sizes (14-63 KB)","No heavy JS frameworks","No third-party tracking"],
+      "findings": [
+        {"title":"Google Fonts without font-display:swap","severity":"High","description":"FOIT risk from external font loading.","recommendation":"Add display=swap to Google Fonts URL or self-host."},
+        {"title":"External font requests render-blocking","severity":"Medium","description":"fonts.googleapis.com external dependency.","recommendation":"Self-host fonts for better performance."}
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 1,
+      "max_score": 5,
+      "what_works": ["emoji placeholders have aria-hidden=true","aspect ratio containers maintain layout"],
+      "findings": [
+        {"title":"No real plant images","severity":"Critical","description":"All 15 plant pages use emoji placeholders instead of photos.","recommendation":"Add high-quality plant photographs, optimize to WebP."},
+        {"title":"Missing OG image","severity":"High","description":"No social share preview image.","recommendation":"Create 1200x630px branded social image."}
+      ]
+    },
+    {
+      "name": "AI Search Readiness",
+      "score": 3,
+      "max_score": 10,
+      "what_works": ["Topical authority on air-purifying plants","NASA study references","Well-structured FAQ"],
+      "findings": [
+        {"title":"Missing llms.txt","severity":"High","description":"No llms.txt file at site root.","recommendation":"Create /llms.txt listing key pages."},
+        {"title":"No llms-full.txt","severity":"Medium","description":"No expanded content for AI training.","recommendation":"Create /llms-full.txt with full-text content."},
+        {"title":"Lacks citation signals","severity":"Medium","description":"No links to original NASA research sources.","recommendation":"Add external citations with links to peer-reviewed research."}
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {"name":"Phase 1: Critical Fixes","timeframe":"Week 1","items":["Add rel=canonical to all pages","Fix blog post title double-suffix","Add real plant images for all 15 plants","Add OG image and social sharing meta tags","Fix homepage heading hierarchy"]},
+      {"name":"Phase 2: High-Impact Improvements","timeframe":"Weeks 2-3","items":["Expand blog posts to 1500-2500+ words","Add individual schema to plant pages","Change homepage schema to CollectionPage","Add font-display:swap","Create llms.txt","Add lastmod to sitemap"]},
+      {"name":"Phase 3: Content & Authority","timeframe":"Month 2","items":["Expand About page with author credentials","Add privacy policy and terms","Add BreadcrumbList schema","Expand plant page content beyond template","Add external citations","Create llms-full.txt"]},
+      {"name":"Phase 4: Monitoring","timeframe":"Ongoing","items":["Set up Google Search Console","Self-host fonts","Configure security headers","Add new blog posts","Monitor Core Web Vitals","Build backlinks"]}
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "report_file": "FULL-AUDIT-REPORT.md",
+    "action_plan_file": "ACTION-PLAN.md"
+  }
+}

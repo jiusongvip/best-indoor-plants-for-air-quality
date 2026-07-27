@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://best-indoor-plants-for-air-quality.com/sitemap-index.xml

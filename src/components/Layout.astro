@@ -1,0 +1,165 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const canonicalUrl = `https://best-indoor-plants-for-air-quality.com${Astro.url.pathname}`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title.includes('|') ? title : `${title} | Air Purifying Guide`}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />  <link rel="canonical" href={canonicalUrl} />
+  <link rel="alternate" hreflang="en" href={canonicalUrl} />
+  <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+  <meta property="og:image" content={image || "https://best-indoor-plants-for-air-quality.com/og-image.jpg"} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Air Purifying Plants Guide",
+    "url": "https://best-indoor-plants-for-air-quality.com",
+    "description": "Science-backed guidance on the best indoor plants for cleaner air, better sleep, and a healthier home.",
+    "logo": "https://best-indoor-plants-for-air-quality.com/favicon.svg"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Air Purifying Plants Guide",
+    "url": "https://best-indoor-plants-for-air-quality.com",
+    "description": "Discover the best indoor plants for air quality backed by NASA research. Care guides, pet safety, and room-by-room recommendations."
+  }
+  </script>
+</head>
+<body class="min-h-[100dvh] flex flex-col bg-[#fcfbf9] text-stone-800 antialiased">
+  <header class="sticky top-0 z-50 bg-[#fcfbf9]/90 backdrop-blur-md border-b border-stone-200/60">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 text-stone-800 no-underline group">
+        <span class="w-8 h-8 rounded-lg bg-green-600 flex items-center justify-center text-white text-sm font-medium shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        <span class="font-semibold text-sm tracking-tight">Air Purifying Plants</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-stone-600">
+        <a href="/#compare" class="hover:text-stone-800 transition-colors">Compare</a>
+        <a href="/#categories" class="hover:text-stone-800 transition-colors">Categories</a>
+        <a href="/nasa-clean-air-study" class="hover:text-stone-800 transition-colors">NASA Study</a>
+        <a href="/faq" class="hover:text-stone-800 transition-colors">FAQ</a>
+        <a href="/blog" class="hover:text-stone-800 transition-colors">Blog</a>
+      </div>
+      <div class="md:hidden">
+        <button class="p-2 text-stone-600 cursor-pointer" aria-label="Open menu" id="menu-open">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-stone-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden">
+      <div class="absolute right-0 top-0 h-full w-64 bg-[#fcfbf9] shadow-xl p-6 pt-20 translate-x-full transition-transform duration-300" id="mobile-panel">
+        <button class="absolute top-4 right-4 p-2 text-stone-600 cursor-pointer" aria-label="Close menu" id="menu-close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <nav class="flex flex-col gap-4">
+          <a href="/#compare" class="text-sm font-medium text-stone-600 hover:text-stone-800 transition-colors py-1.5">Compare</a>
+          <a href="/#categories" class="text-sm font-medium text-stone-600 hover:text-stone-800 transition-colors py-1.5">Categories</a>
+          <a href="/nasa-clean-air-study" class="text-sm font-medium text-stone-600 hover:text-stone-800 transition-colors py-1.5">NASA Study</a>
+          <a href="/faq" class="text-sm font-medium text-stone-600 hover:text-stone-800 transition-colors py-1.5">FAQ</a>
+          <a href="/blog" class="text-sm font-medium text-stone-600 hover:text-stone-800 transition-colors py-1.5">Blog</a>
+          <a href="/#plants" class="mt-2 inline-flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors">View Plants</a>
+        </nav>
+      </div>
+    </div>
+    </nav>
+  </header>
+
+  <main class="flex-1">
+    <slot />
+  </main>
+
+  <footer class="border-t border-stone-200/60 bg-stone-50 mt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <span class="font-semibold text-stone-800 text-sm">Air Purifying Plants Guide</span>
+          <p class="mt-2 text-sm text-stone-500 max-w-sm leading-relaxed">Science-backed guidance on the best indoor plants for cleaner air, better sleep, and a healthier home.</p>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-3">Plants</h4>
+          <ul class="space-y-2">
+            <li><a href="/plants/snake-plant" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">Snake Plant</a></li>
+            <li><a href="/plants/peace-lily" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">Peace Lily</a></li>
+            <li><a href="/plants/spider-plant" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">Spider Plant</a></li>
+            <li><a href="/plants/bamboo-palm" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">Bamboo Palm</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-3">Guides</h4>
+          <ul class="space-y-2">
+            <li><a href="/categories/low-light" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">Low Light</a></li>
+            <li><a href="/categories/pet-safe" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">Pet Safe</a></li>
+            <li><a href="/categories/beginner" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">Beginners</a></li>
+            <li><a href="/faq" class="text-sm text-stone-500 hover:text-stone-800 transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-10 pt-6 border-t border-stone-200/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-stone-400">2026 Air Purifying Plants Guide. Based on NASA Clean Air Study research.</p>
+        <div class="flex gap-6 text-xs text-stone-400">
+          <a href="/about" class="hover:text-stone-600 transition-colors">About</a>
+          <a href="/faq" class="hover:text-stone-600 transition-colors">FAQ</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+<script>
+  (function() {
+    var menu = document.getElementById('mobile-menu');
+    var panel = document.getElementById('mobile-panel');
+
+    function openMenu() {
+      menu.classList.remove('pointer-events-none', 'opacity-0');
+      menu.classList.add('opacity-100');
+      panel.classList.remove('translate-x-full');
+      panel.classList.add('translate-x-0');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      menu.classList.add('opacity-0', 'pointer-events-none');
+      menu.classList.remove('opacity-100');
+      panel.classList.add('translate-x-full');
+      panel.classList.remove('translate-x-0');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('menu-open').addEventListener('click', openMenu);
+    document.getElementById('menu-close').addEventListener('click', closeMenu);
+    menu.addEventListener('click', function(e) { if (e.target === menu) closeMenu(); });
+    var links = menu.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) { links[i].addEventListener('click', closeMenu); }
+  })();
+</script>
+</body>
+</html>

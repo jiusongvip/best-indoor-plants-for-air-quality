@@ -1,0 +1,25 @@
+---
+export interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  count: number;
+  accent?: string;
+}
+
+const { slug, title, description, count, accent } = Astro.props;
+const bg = accent ?? "from-green-50 to-green-100/50";
+---
+<a
+  href={`/categories/${slug}`}
+  class="group block bg-white rounded-xl border border-stone-200/60 p-6 hover:border-green-200 hover:shadow-md hover:shadow-green-50/30 transition-all duration-300"
+>
+  <div class={`w-10 h-10 rounded-lg bg-gradient-to-br ${bg} flex items-center justify-center mb-4`}>
+    <span class="text-lg opacity-60" aria-hidden="true">
+      {slug === "low-light" ? "🌑" : slug === "bedroom" ? "🛏" : slug === "pet-safe" ? "🐾" : slug === "beginner" ? "⭐" : slug === "office" ? "💼" : "🌿"}
+    </span>
+  </div>
+  <h3 class="font-semibold text-stone-800 group-hover:text-green-700 transition-colors mb-1">{title}</h3>
+  <p class="text-sm text-stone-500 leading-relaxed mb-3">{description}</p>
+  <span class="text-xs font-medium text-green-600">{count} plants</span>
+</a>
