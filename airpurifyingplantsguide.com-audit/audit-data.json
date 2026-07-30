@@ -1,101 +1,339 @@
 {
   "summary": {
-    "health_score": 53,
-    "business_type": "Content/Affiliate - Indoor Plants & Air Quality Guide",
-    "url": "https://best-indoor-plants-for-air-quality.com",
-    "pages_crawled": 29,
-    "site_platform": "Astro (Static Site Generation)"
+    "health_score": 84,
+    "business_type": "Informational Content Site (Niche Affiliate)",
+    "top_findings": [
+      "Category pages lack substantive editorial content, relying solely on plant card listings",
+      "No BreadcrumbList schema markup on any page",
+      "No meta robots tags for indexing control",
+      "Blog index H1 is too generic ('Blog')",
+      "Google Fonts external dependency impacts Core Web Vitals",
+      "No responsive image srcset on plant images",
+      "Category count logic shows inflated numbers (bedroom/office categories filter loosely)",
+      "Plant pages use generic @type:Thing schema instead of more specific types",
+      "No author bylines on blog posts (uses Organization as blanket author)",
+      "Missing OpenGraph article metadata on blog posts"
+    ],
+    "quick_wins": [
+      "Add BreadcrumbList JSON-LD schema to Layout for instant rich snippet eligibility",
+      "Replace Google Fonts with self-hosted font files to eliminate external render-blocking request",
+      "Add meta robots 'index, follow' to Layout for explicit crawl control",
+      "Expand category page descriptions with 100-200 words of editorial content",
+      "Add srcset and sizes attributes to plant images for responsive loading"
+    ]
   },
   "categories": [
     {
       "name": "Technical SEO",
-      "score": 13,
-      "max_score": 22,
-      "what_works": ["robots.txt correctly configured with sitemap reference","Clean URL structure","All pages return 200 status","Sitemap generated and valid with 29 URLs"],
+      "score": 88,
+      "what_works": [
+        "Canonical URLs present on every page via Layout",
+        "robots.txt correctly configured with Allow: / and Sitemap link",
+        "Correct hreflang tags (en + x-default) on all pages",
+        "Clean URL structure with trailing slash removal (trailingSlash: 'never')",
+        "Sitemap integration via @astrojs/sitemap (generated at build time)",
+        "No broken internal links detected in source code",
+        "404 page properly implemented with navigation options",
+        "HTTP to HTTPS readiness (all URLs use https:// in config)"
+      ],
       "findings": [
-        {"title":"Missing canonical URLs","severity":"Critical","description":"No rel=canonical tag found in any page head.","recommendation":"Add rel=canonical to Layout.astro."},
-        {"title":"Sitemap missing lastmod/priority","severity":"Medium","description":"Sitemap entries lack lastmod timestamps and priority values.","recommendation":"Configure @astrojs/sitemap with lastmod and priority options."},
-        {"title":"No security headers","severity":"Low","description":"Standard security headers not set.","recommendation":"Configure web server or CDN to add security headers."}
+        {
+          "title": "No meta robots tags on any page",
+          "severity": "High",
+          "description": "No pages include <meta name='robots' content='...'> tags. While not strictly required (Google defaults to index,follow), explicit control is needed for pre-launch staging and future paginated/category pages.",
+          "recommendation": "Add a default 'index, follow' robots meta tag in Layout.astro. For staging environments, override to 'noindex, nofollow'."
+        },
+        {
+          "title": "Sitemap only generated at build time, missing dev parity",
+          "severity": "Medium",
+          "description": "@astrojs/sitemap only produces output during 'astro build'. In dev mode the sitemap endpoint returns 404, making pre-launch verification harder.",
+          "recommendation": "Run 'npm run build' and verify sitemap output under dist/ before launch. Ensure dynamic plant and blog pages are included."
+        },
+        {
+          "title": "No server-side security headers configured",
+          "severity": "Medium",
+          "description": "No Content-Security-Policy, X-Frame-Options, or HSTS headers are configured. These must be set at the hosting/CDN level (e.g., Cloudflare Pages, Netlify, Vercel).",
+          "recommendation": "Configure security headers at the deployment platform level before going live."
+        },
+        {
+          "title": "Trailing slash handling: 'never' may cause redirect chains for some CMS-linked pages",
+          "severity": "Low",
+          "description": "The trailingSlash: 'never' config works but if any external sites link to trailing-slash versions, users will experience a 301 redirect, adding latency.",
+          "recommendation": "Monitor for trailing-slash redirects in Search Console post-launch. Consider adding canonical URLs for both variants if issues arise."
+        }
       ]
     },
     {
       "name": "On-Page SEO",
-      "score": 11,
-      "max_score": 20,
-      "what_works": ["Unique meta descriptions on all pages","Proper H1 tag on every page","Clean URL slugs","Mobile-responsive navigation"],
+      "score": 82,
+      "what_works": [
+        "All pages have unique, descriptive title tags (25-60 chars range)",
+        "All pages have unique meta descriptions (120-160 chars range)",
+        "H1 tags present and unique on every page",
+        "Semantic heading structure (H1 → H2 → H3) used throughout",
+        "Internal linking between plant pages, categories, and blog posts",
+        "Breadcrumb navigation present on blog posts, plant pages, and category pages"
+      ],
       "findings": [
-        {"title":"Double site-name in blog post title","severity":"Critical","description":"how-many-plants-per-room has doubled site name suffix.","recommendation":"Remove site-name from blog post title props."},
-        {"title":"Missing OG image tags","severity":"High","description":"No og:image or twitter:image.","recommendation":"Add og:image to Layout.astro with default social preview image."},
-        {"title":"Heading hierarchy violation","severity":"High","description":"Homepage jumps from H1 to H3, skipping H2.","recommendation":"Change RecommendationTool heading from H3 to H2."},
-        {"title":"Homepage H1 broken with br tag","severity":"Medium","description":"H1 split by br tag.","recommendation":"Use CSS max-width instead of br tag in H1."}
+        {
+          "title": "Blog index H1 too generic",
+          "severity": "Medium",
+          "description": "Blog index page H1 is simply 'Blog'. This misses an opportunity to target informational keywords like 'Indoor Plant Care Blog' or 'Air Quality Articles'.",
+          "recommendation": "Change H1 to 'Indoor Plant Care & Air Quality Blog' and update title tag accordingly."
+        },
+        {
+          "title": "Category pages are on-page SEO thin",
+          "severity": "High",
+          "description": "Category pages (low-light, bedroom, pet-safe, beginner, office) contain only a heading, short description, and a grid of plant cards. No editorial content, no unique keyword targeting, no FAQ or buying guidance.",
+          "recommendation": "Add 200-400 words of category-specific editorial content (e.g., 'What to Look for in Low-Light Plants', linked products, FAQs)."
+        },
+        {
+          "title": "Some OG tags missing page-specific context",
+          "severity": "Medium",
+          "description": "The og:title on some pages differs from <title>. For example, about page og:title has HTML entities (&amp;) while <title> has proper formatting. Blog posts lack og:type 'article' and article:published_time.",
+          "recommendation": "Add og:type='article' to blog posts with article:published_time and article:author. Ensure og:title matches <title> exactly."
+        },
+        {
+          "title": "Missing Twitter Card meta tags",
+          "severity": "Low",
+          "description": "Only twitter:card='summary_large_image' is set. Missing twitter:site, twitter:creator, and twitter:title/description (uses og: fallback which works but not optimal).",
+          "recommendation": "Add twitter:site and ensure twitter:title/description are explicitly set on key pages."
+        }
       ]
     },
     {
       "name": "Content Quality",
-      "score": 14,
-      "max_score": 23,
-      "what_works": ["Strong homepage content","NASA Clean Air Study page","Well-structured FAQ","Plant pages include scientific names and care guides"],
+      "score": 85,
+      "what_works": [
+        "Strong E-E-A-T signals: mission page, methodology disclosure, source citations",
+        "NASA Clean Air Study cited as primary source with proper context about limitations",
+        "Realistic claims: 'never claim a single plant will cure indoor air pollution'",
+        "Blog posts are well-researched, 1000+ words with balanced perspectives",
+        "Unique content on every page — no duplicate content detected",
+        "Plant detail pages include care guides, toxin lists, benefits, and fun facts",
+        "Cross-referencing with ASPCA, Royal Horticultural Society, peer-reviewed journals"
+      ],
       "findings": [
-        {"title":"Blog posts are thin (400-600 words)","severity":"High","description":"4 blog posts are 400-600 words each.","recommendation":"Expand to 1500-2500+ words with comprehensive coverage."},
-        {"title":"No author credentials","severity":"High","description":"About page brief, lacks author bios/credentials.","recommendation":"Add author bio with credentials, cite peer-reviewed sources."},
-        {"title":"No privacy policy","severity":"Medium","description":"Missing privacy policy page.","recommendation":"Add privacy policy and terms pages."},
-        {"title":"Templated plant page content","severity":"Medium","description":"All 15 plant pages use same template structure.","recommendation":"Add unique content beyond data values to each plant page."}
+        {
+          "title": "No author bylines on blog posts",
+          "severity": "High",
+          "description": "All content is attributed to 'Air Purifying Plants Guide' (Organization). Google's E-E-A-T guidelines favor content with named human authors, bios, and expertise signals.",
+          "recommendation": "Add author name, bio, and optionally author schema to blog posts. Even a single editorial persona ('Alex Chen, Plant Biologist' etc.) adds significant E-E-A-T weight."
+        },
+        {
+          "title": "Category pages lack editorial depth",
+          "severity": "High",
+          "description": "Five category pages exist but none contain original editorial content beyond a 1-sentence description. These are prime candidates for informational keyword targeting.",
+          "recommendation": "Write 200-400 words of editorial content per category page. Include guidance on choosing plants, common mistakes, and links to relevant blog posts."
+        },
+        {
+          "title": "No internal linking strategy from blog to category pages",
+          "severity": "Medium",
+          "description": "Blog posts link to individual plant pages but not to category pages. Topic clustering (pillar → cluster) is not implemented.",
+          "recommendation": "Add contextual links from blog posts to relevant category pages (e.g., link 'bedroom plants' category from the how-many-plants-per-room article)."
+        },
+        {
+          "title": "About page not linked from main navigation",
+          "severity": "Low",
+          "description": "About page is only linked in the footer. Main nav and mobile menu don't include it, reducing its visibility for E-E-A-T signals.",
+          "recommendation": "Add 'About' link to the main navigation or ensure it's prominently linked from the homepage hero."
+        }
       ]
     },
     {
-      "name": "Schema/Structured Data",
-      "score": 4,
-      "max_score": 10,
-      "what_works": ["Organization schema on all pages","WebSite schema","FAQPage schema on FAQ page","Article schema on blog posts"],
+      "name": "Schema / Structured Data",
+      "score": 78,
+      "what_works": [
+        "Organization schema present on all pages via Layout ✅",
+        "WebSite schema present on all pages via Layout ✅",
+        "CollectionPage + ItemList schema on homepage with 15 plants enumerated ✅",
+        "FAQPage schema on FAQ page with 8 Q&A pairs ✅",
+        "Article schema on all 4 blog posts ✅",
+        "Plant detail pages include PropertyValue annotations"
+      ],
       "findings": [
-        {"title":"Wrong homepage schema type","severity":"High","description":"Homepage uses Article instead of CollectionPage.","recommendation":"Change homepage schema to CollectionPage with ItemList."},
-        {"title":"No plant page schema","severity":"High","description":"Individual plant pages have no JSON-LD.","recommendation":"Add schema to each plant page."},
-        {"title":"Missing BreadcrumbList schema","severity":"Medium","description":"Visual breadcrumbs lack structured data.","recommendation":"Add BreadcrumbList JSON-LD to pages with breadcrumbs."}
+        {
+          "title": "No BreadcrumbList schema on any page",
+          "severity": "High",
+          "description": "Breadcrumb navigation is visually present on blog posts, plant pages, and category pages, but BreadcrumbList JSON-LD is not implemented. This is a missed rich snippet opportunity.",
+          "recommendation": "Add BreadcrumbList schema to Layout or per-page. The breadcrumb structure is already in the HTML — just needs JSON-LD wrapper."
+        },
+        {
+          "title": "Plant pages use @type: Thing instead of more specific type",
+          "severity": "Medium",
+          "description": "The plant detail page schema uses '@type': 'Thing' which is the most generic schema type. Could be enhanced with more specific types.",
+          "recommendation": "Consider using @type: Product (with category as 'Houseplant') or a custom type with additional properties. Even Thing works, but Product enables Google Shopping-like features."
+        },
+        {
+          "title": "Blog Article schema missing image property",
+          "severity": "Medium",
+          "description": "Blog post Article schemas don't include 'image' property, which helps Google display rich results in search.",
+          "recommendation": "Add 'image' property with URL to the post's hero/og-image to each blog post Article schema."
+        },
+        {
+          "title": "No local business or publisher schema depth",
+          "severity": "Low",
+          "description": "Publisher schema exists inside Article schemas but lacks the full Publisher type with logo URL required for AMP and some rich result types.",
+          "recommendation": "Expand the Organization schema with '@type': ['Organization', 'Publisher'] and ensure logo URL is included."
+        }
       ]
     },
     {
       "name": "Performance (CWV)",
-      "score": 6,
-      "max_score": 10,
-      "what_works": ["Static HTML pages","Small page sizes (14-63 KB)","No heavy JS frameworks","No third-party tracking"],
+      "score": 75,
+      "what_works": [
+        "Images are lazy-loaded (loading='lazy') on plant cards ✅",
+        "All plant images in WebP format ✅",
+        "Minimal JavaScript footprint (only recommendation tool + mobile menu) ✅",
+        "Tailwind CSS v4 with purge-ready setup ✅",
+        "preconnect hints for Google Fonts domain ✅"
+      ],
       "findings": [
-        {"title":"Google Fonts without font-display:swap","severity":"High","description":"FOIT risk from external font loading.","recommendation":"Add display=swap to Google Fonts URL or self-host."},
-        {"title":"External font requests render-blocking","severity":"Medium","description":"fonts.googleapis.com external dependency.","recommendation":"Self-host fonts for better performance."}
+        {
+          "title": "Google Fonts is an external render-blocking resource",
+          "severity": "High",
+          "description": "Google Fonts CSS is loaded from fonts.googleapis.com. This is an external, render-blocking request that adds ~150-300ms to LCP, especially on slow connections.",
+          "recommendation": "Self-host Geist and Geist Mono fonts. Download the font files and serve from /public/fonts/. Add @font-face declarations in global.css."
+        },
+        {
+          "title": "No image srcset for responsive loading",
+          "severity": "Medium",
+          "description": "All plant images use a single resolution (<img src='...' width='400' height='300'>). Mobile devices download the same file as desktop, wasting bandwidth.",
+          "recommendation": "Generate 2-3 image sizes (e.g., 400w, 800w, 1200w) and use srcset + sizes attributes. Tools like 'astro-imagetools' can automate this."
+        },
+        {
+          "title": "No Resource Hints for critical assets",
+          "severity": "Medium",
+          "description": "Only Google Fonts has preconnect. No prefetch/prerender for likely next pages (e.g., top plant pages from homepage).",
+          "recommendation": "Add <link rel='prefetch' href='/plants/peace-lily'> etc. for the top 3 plants on homepage. Consider prerendering the most likely click target."
+        },
+        {
+          "title": "RecommendationTool inline script is large without async/defer",
+          "severity": "Low",
+          "description": "The plant recommendation tool includes all plant data in an inline script. While is:inline prevents processing, it still blocks rendering.",
+          "recommendation": "Add 'defer' to the script or use is:inline with type='module' and async behavior to avoid blocking."
+        }
+      ]
+    },
+    {
+      "name": "AI Search Readiness (GEO)",
+      "score": 82,
+      "what_works": [
+        "llms.txt file present with complete site structure ✅",
+        "Rich schema markup throughout (FAQPage, Article, CollectionPage) ✅",
+        "Clear, factual content with cited sources ✅",
+        "Question-answering format on FAQ page directly targets featured snippets ✅",
+        "Well-structured heading hierarchy aids passage extraction ✅",
+        "Authoritative outbound citations (NASA, EPA, ASPCA, peer-reviewed journals)"
+      ],
+      "findings": [
+        {
+          "title": "llms.txt could include more granular section references",
+          "severity": "Medium",
+          "description": "Current llms.txt only lists top-level pages. For AI crawlers (GPT, Claude, Perplexity), more granular section references would improve citability.",
+          "recommendation": "Add section-level anchors to llms.txt (e.g., 'Snake Plant - Care Guide' https://.../plants/snake-plant#care-guide) for better passage extraction."
+        },
+        {
+          "title": "No author expertise signals for AI citation",
+          "severity": "High",
+          "description": "AI systems (Google AI Overviews, ChatGPT, Perplexity) weight content with named human authors higher for citation. Organization-only attribution reduces citability score.",
+          "recommendation": "Add named author with bio to each blog post and plant guide. Even one recurring expert persona significantly improves AI citation readiness."
+        },
+        {
+          "title": "No brand mention monitoring setup",
+          "severity": "Low",
+          "description": "No infrastructure exists to track brand mentions across AI platforms. Post-launch, monitoring citations in AI Overviews and ChatGPT responses is important.",
+          "recommendation": "Set up Google Alerts for 'Air Purifying Plants Guide' and periodically check brand mentions in ChatGPT, Perplexity, and Gemini."
+        }
       ]
     },
     {
       "name": "Images",
-      "score": 1,
-      "max_score": 5,
-      "what_works": ["emoji placeholders have aria-hidden=true","aspect ratio containers maintain layout"],
+      "score": 80,
+      "what_works": [
+        "All 15 plant images in WebP format for modern compression ✅",
+        "Alt text present on all <img> tags ✅",
+        "Images stored in /public/images/plants/ with clean naming convention ✅",
+        "Explicit width/height on plant detail page images (1200x900) ✅",
+        "Lazy loading enabled on PlantCard component images ✅"
+      ],
       "findings": [
-        {"title":"No real plant images","severity":"Critical","description":"All 15 plant pages use emoji placeholders instead of photos.","recommendation":"Add high-quality plant photographs, optimize to WebP."},
-        {"title":"Missing OG image","severity":"High","description":"No social share preview image.","recommendation":"Create 1200x630px branded social image."}
-      ]
-    },
-    {
-      "name": "AI Search Readiness",
-      "score": 3,
-      "max_score": 10,
-      "what_works": ["Topical authority on air-purifying plants","NASA study references","Well-structured FAQ"],
-      "findings": [
-        {"title":"Missing llms.txt","severity":"High","description":"No llms.txt file at site root.","recommendation":"Create /llms.txt listing key pages."},
-        {"title":"No llms-full.txt","severity":"Medium","description":"No expanded content for AI training.","recommendation":"Create /llms-full.txt with full-text content."},
-        {"title":"Lacks citation signals","severity":"Medium","description":"No links to original NASA research sources.","recommendation":"Add external citations with links to peer-reviewed research."}
+        {
+          "title": "Missing responsive image srcset",
+          "severity": "Medium",
+          "description": "All images serve a single resolution. No srcset or sizes attributes for responsive delivery.",
+          "recommendation": "Generate multiple sizes (400w, 800w, 1200w) and use <img srcset='...' sizes='(max-width: 768px) 100vw, 50vw'> pattern."
+        },
+        {
+          "title": "PlantCard uses loading='lazy' but lacks explicit dimensions",
+          "severity": "Medium",
+          "description": "PlantCard has width='400' height='300' on images which is good, but no aspect-ratio CSS fallback. Combined with lazy loading this can cause CLS if image load is delayed.",
+          "recommendation": "Add aspect-ratio CSS property to image containers: class='aspect-[4/3]' (already present on parent div, so CLS should be mitigated). Verify with Lighthouse."
+        },
+        {
+          "title": "No social card image for individual plant pages",
+          "severity": "Low",
+          "description": "All pages use the same og:image (/og-image.jpg). When shared on social media, plant-specific pages lack a relevant visual.",
+          "recommendation": "Generate per-plant OG images using the existing plant photos, or add plant name text overlay programmatically."
+        },
+        {
+          "title": "RecommendationTool results use emoji placeholders instead of real plant images",
+          "severity": "Low",
+          "description": "When users complete the recommender quiz, results show emoji icons instead of actual plant photos, reducing visual appeal and conversion potential.",
+          "recommendation": "Include a small thumbnail (the existing plant image) in recommendation results to increase engagement."
+        }
       ]
     }
   ],
   "action_plan": {
     "phases": [
-      {"name":"Phase 1: Critical Fixes","timeframe":"Week 1","items":["Add rel=canonical to all pages","Fix blog post title double-suffix","Add real plant images for all 15 plants","Add OG image and social sharing meta tags","Fix homepage heading hierarchy"]},
-      {"name":"Phase 2: High-Impact Improvements","timeframe":"Weeks 2-3","items":["Expand blog posts to 1500-2500+ words","Add individual schema to plant pages","Change homepage schema to CollectionPage","Add font-display:swap","Create llms.txt","Add lastmod to sitemap"]},
-      {"name":"Phase 3: Content & Authority","timeframe":"Month 2","items":["Expand About page with author credentials","Add privacy policy and terms","Add BreadcrumbList schema","Expand plant page content beyond template","Add external citations","Create llms-full.txt"]},
-      {"name":"Phase 4: Monitoring","timeframe":"Ongoing","items":["Set up Google Search Console","Self-host fonts","Configure security headers","Add new blog posts","Monitor Core Web Vitals","Build backlinks"]}
+      {
+        "name": "Phase 1: Critical Fixes",
+        "timeframe": "Before Launch",
+        "items": [
+          "Add BreadcrumbList JSON-LD schema to all pages via Layout.astro",
+          "Add meta robots 'index, follow' tag to Layout.astro for production readiness",
+          "Add named author with bio to blog posts for E-E-A-T signals",
+          "Verify sitemap output after 'npm run build' before deployment"
+        ]
+      },
+      {
+        "name": "Phase 2: High-Impact Improvements",
+        "timeframe": "Week 1 Post-Launch",
+        "items": [
+          "Expand category pages with 200-400 words editorial content",
+          "Self-host Google Fonts to eliminate external render-blocking request",
+          "Add responsive image srcset for all plant images",
+          "Update blog index H1 from 'Blog' to 'Indoor Plant Care & Air Quality Blog'",
+          "Add article:published_time and article:author OG meta tags to blog posts"
+        ]
+      },
+      {
+        "name": "Phase 3: Content & Authority",
+        "timeframe": "Month 1-2",
+        "items": [
+          "Write 2-3 additional blog posts (targeting low-competition informational keywords)",
+          "Create internal linking strategy: blog posts → category pages → plant pages",
+          "Add 'About' link to main navigation for E-E-A-T visibility",
+          "Implement topic clusters with pillar page content",
+          "Replace generic schema @type:Thing on plant pages with @type:Product or richer type"
+        ]
+      },
+      {
+        "name": "Phase 4: Monitoring & Iteration",
+        "timeframe": "Ongoing",
+        "items": [
+          "Monitor Google Search Console for indexation errors and sitemap coverage",
+          "Track brand mentions in AI Overviews, ChatGPT, and Perplexity",
+          "Add user engagement tracking (clicks on plant cards, recommender tool usage)",
+          "Plan seasonal content updates (e.g., 'Best Winter Indoor Plants')",
+          "Periodically check Core Web Vitals via PageSpeed Insights once live"
+        ]
+      }
     ]
   },
   "artifacts": {
     "findings_dir": "findings/",
-    "report_file": "FULL-AUDIT-REPORT.md",
-    "action_plan_file": "ACTION-PLAN.md"
+    "screenshots_dir": "screenshots/"
   }
 }
