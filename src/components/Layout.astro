@@ -9,6 +9,29 @@ export interface Props {
 
 const { title, description, image } = Astro.props;
 const canonicalUrl = `https://best-indoor-plants-for-air-quality.com${Astro.url.pathname}`;
+
+const pathParts = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbItems = [{ position: 1, name: "Home", item: "https://best-indoor-plants-for-air-quality.com/" }];
+pathParts.reduce((acc, part, i) => {
+  const url = `${acc}/${part}`;
+  const slug = part.replace(/\.html$/, "");
+  const knownNames: Record<string, string> = {
+    about: "About", faq: "FAQ", blog: "Blog", plants: "Plants", categories: "Categories",
+    "nasa-clean-air-study": "NASA Clean Air Study",
+    "snake-plant": "Snake Plant", "spider-plant": "Spider Plant", "peace-lily": "Peace Lily",
+    "boston-fern": "Boston Fern", "aloe-vera": "Aloe Vera", "english-ivy": "English Ivy",
+    "rubber-plant": "Rubber Plant", "bamboo-palm": "Bamboo Palm", dracaena: "Dracaena",
+    pothos: "Golden Pothos", philodendron: "Heartleaf Philodendron", "areca-palm": "Areca Palm",
+    "chinese-evergreen": "Chinese Evergreen", "zz-plant": "ZZ Plant", chrysanthemum: "Chrysanthemum",
+    "low-light": "Low Light Plants", bedroom: "Bedroom Plants", "pet-safe": "Pet-Safe Plants",
+    beginner: "Beginner Plants", office: "Office Plants",
+    "how-many-plants-per-room": "How Many Plants Per Room", "air-purifier-vs-plants": "Air Purifier vs. Plants",
+    "do-plants-really-clean-air": "Do Plants Really Clean Air?", "mold-on-houseplant-soil": "Mold on Houseplant Soil",
+  };
+  const name = knownNames[slug] || slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+  breadcrumbItems.push({ position: i + 2, name, item: "https://best-indoor-plants-for-air-quality.com" + url });
+  return url;
+}, "");
 ---
 <!doctype html>
 <html lang="en">
@@ -50,6 +73,11 @@ const canonicalUrl = `https://best-indoor-plants-for-air-quality.com${Astro.url.
     "description": "Discover the best indoor plants for air quality backed by NASA research. Care guides, pet safety, and room-by-room recommendations."
   }
   </script>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbItems
+  })} />
 </head>
 <body class="min-h-[100dvh] flex flex-col bg-[#fcfbf9] text-stone-800 antialiased">
   <header class="sticky top-0 z-50 bg-[#fcfbf9]/90 backdrop-blur-md border-b border-stone-200/60">
